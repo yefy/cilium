@@ -119,6 +119,7 @@ Helm chart for Cilium
 | externalIPs.enabled | bool | `false` |  |
 | externalWorkloads.enabled | bool | `false` |  |
 | extraArgs | object | `{}` |  |
+| extraConfig | object | `{}` |  |
 | extraConfigmapMounts | list | `[]` |  |
 | extraEnv | object | `{}` |  |
 | extraHostPathMounts | list | `[]` |  |
