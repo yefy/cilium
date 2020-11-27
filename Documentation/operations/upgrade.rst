@@ -804,6 +804,8 @@ Deprecated options
 
 * ``k8s-watcher-queue-size``: This option does not have any effect since 1.8
   and is planned to be removed in 1.10.
+* ``bpf-compile-debug``: This option does not have any effect since 1.10
+  and is planned to be removed in 1.11.
 
 Removed options
 ~~~~~~~~~~~~~~~
