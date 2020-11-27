@@ -105,6 +105,17 @@ func getClangVersion(filePath string) (go_version.Version, error) {
 	return versioncheck.Version(v)
 }
 
+// TODO
+func GetIproute2Version() string {
+	verOut, err := exec.Command("tc", "-V").CombinedOutput()
+	if err != nil {
+		log.WithError(err).Fatal("iproute version: NOT OK")
+		return ""
+	}
+
+	return string(verOut)
+}
+
 // CheckMinRequirements checks that minimum kernel requirements are met for
 // configuring the BPF datapath. If not, fatally exits.
 func CheckMinRequirements() {
@@ -148,6 +159,7 @@ func CheckMinRequirements() {
 		}
 		canDisableDwarfRelocations = isDwarfrisClangVer(clangVersion)
 		log.Infof("clang (%s) and kernel (%s) versions: OK!", clangVersion, kernelVersion)
+		log.Infof("iproute2 version: %s", GetIproute2Version())
 	}
 
 	if filePath, err := exec.LookPath("llc"); err != nil {
