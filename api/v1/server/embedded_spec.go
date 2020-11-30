@@ -59,6 +59,87 @@ func init() {
         }
       }
     },
+    "/cluster/nodes/neigh": {
+      "put": {
+        "description": "Inserts a node as a neighbor into the cluster, rather than a full node\n(running Cilium). This operation informs all full nodes of this new\nneighbor.\n",
+        "tags": [
+          "daemon"
+        ],
+        "summary": "Insert node as a neighbor into cluster",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NodeNeighRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid endpoint in request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Invalid"
+          },
+          "409": {
+            "description": "Endpoint already exists",
+            "x-go-name": "Exists"
+          },
+          "500": {
+            "description": "Endpoint creation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Failed"
+          }
+        }
+      },
+      "delete": {
+        "description": "Removes a node as a neighbor from the cluster. This operation removes\nthe node from all other nodes' neighbor tables.\n",
+        "tags": [
+          "daemon"
+        ],
+        "summary": "Remove node as a neighbor from cluster",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NodeAddressing"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "206": {
+            "description": "Deleted with a number of errors encountered",
+            "schema": {
+              "type": "integer"
+            },
+            "x-go-name": "Errors"
+          },
+          "400": {
+            "description": "Invalid endpoint ID format for specified type. Details in error\nmessage\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Invalid"
+          },
+          "404": {
+            "description": "Endpoint not found"
+          }
+        }
+      }
+    },
     "/config": {
       "get": {
         "description": "Returns the configuration of the Cilium daemon.\n",
@@ -3062,6 +3143,20 @@ func init() {
         }
       }
     },
+    "NodeNeighRequest": {
+      "description": "Structure which contains the elements for manipulating node neighbors\n",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Node identity of the node that's the neighbor",
+          "type": "integer"
+        },
+        "ip": {
+          "description": "Node IP address of the node that's the neighbor",
+          "type": "string"
+        }
+      }
+    },
     "Policy": {
       "description": "Policy definition",
       "type": "object",
@@ -3747,6 +3842,87 @@ func init() {
             "schema": {
               "$ref": "#/definitions/ClusterNodeStatus"
             }
+          }
+        }
+      }
+    },
+    "/cluster/nodes/neigh": {
+      "put": {
+        "description": "Inserts a node as a neighbor into the cluster, rather than a full node\n(running Cilium). This operation informs all full nodes of this new\nneighbor.\n",
+        "tags": [
+          "daemon"
+        ],
+        "summary": "Insert node as a neighbor into cluster",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NodeNeighRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid endpoint in request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Invalid"
+          },
+          "409": {
+            "description": "Endpoint already exists",
+            "x-go-name": "Exists"
+          },
+          "500": {
+            "description": "Endpoint creation failed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Failed"
+          }
+        }
+      },
+      "delete": {
+        "description": "Removes a node as a neighbor from the cluster. This operation removes\nthe node from all other nodes' neighbor tables.\n",
+        "tags": [
+          "daemon"
+        ],
+        "summary": "Remove node as a neighbor from cluster",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NodeAddressing"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "206": {
+            "description": "Deleted with a number of errors encountered",
+            "schema": {
+              "type": "integer"
+            },
+            "x-go-name": "Errors"
+          },
+          "400": {
+            "description": "Invalid endpoint ID format for specified type. Details in error\nmessage\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "x-go-name": "Invalid"
+          },
+          "404": {
+            "description": "Endpoint not found"
           }
         }
       }
@@ -7165,6 +7341,20 @@ func init() {
           "items": {
             "$ref": "#/definitions/NodeAddressingElement"
           }
+        }
+      }
+    },
+    "NodeNeighRequest": {
+      "description": "Structure which contains the elements for manipulating node neighbors\n",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Node identity of the node that's the neighbor",
+          "type": "integer"
+        },
+        "ip": {
+          "description": "Node IP address of the node that's the neighbor",
+          "type": "string"
         }
       }
     },

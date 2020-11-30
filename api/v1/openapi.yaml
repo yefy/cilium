@@ -31,6 +31,67 @@ paths:
           description: Success
           schema:
             "$ref": "#/definitions/ClusterNodeStatus"
+  "/cluster/nodes/neigh":
+    put:
+      summary: Insert node as a neighbor into cluster
+      description: |
+        Inserts a node as a neighbor into the cluster, rather than a full node
+        (running Cilium). This operation informs all full nodes of this new
+        neighbor.
+      tags:
+      - daemon
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/NodeNeighRequest"
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid endpoint in request
+          x-go-name: Invalid
+          schema:
+            "$ref": "#/definitions/Error"
+        '409':
+          description: Endpoint already exists
+          x-go-name: Exists
+        '500':
+          description: Endpoint creation failed
+          x-go-name: Failed
+          schema:
+            "$ref": "#/definitions/Error"
+    delete:
+      summary: Remove node as a neighbor from cluster
+      description: |
+        Removes a node as a neighbor from the cluster. This operation removes
+        the node from all other nodes' neighbor tables.
+      tags:
+      - daemon
+      parameters:
+      - name: addresses
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/NodeAddressing"
+      responses:
+        '200':
+          description: Success
+        '206':
+          description: Deleted with a number of errors encountered
+          x-go-name: Errors
+          schema:
+            type: integer
+        '400':
+          description: |
+            Invalid endpoint ID format for specified type. Details in error
+            message
+          x-go-name: Invalid
+          schema:
+            "$ref": "#/definitions/Error"
+        '404':
+          description: Endpoint not found
   "/healthz":
     get:
       summary: Get health of Cilium daemon
@@ -2777,3 +2838,14 @@ definitions:
     type: array
     items:
       "$ref": "#/definitions/Port"
+  NodeNeighRequest:
+    description: |
+      Structure which contains the elements for manipulating node neighbors
+    type: object
+    properties:
+      id:
+        description: Node identity of the node that's the neighbor
+        type: integer
+      ip:
+        description: Node IP address of the node that's the neighbor
+        type: string
