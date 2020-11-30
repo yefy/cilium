@@ -59,7 +59,7 @@ var _ = Describe("K8sIdentity", func() {
 		kubectl.ValidateNoErrorsInLogs(CurrentGinkgoTestDescription().Duration)
 	})
 
-	Context("Identity expiration", func() {
+	SkipContextIf(helpers.DoesNotRunOnGKE, "Identity expiration", func() {
 		It("Expiration of CiliumIdentity", func() {
 			By("Creating unused CiliumIdentity")
 			dummyIdentity := helpers.ManifestGet(kubectl.BasePath(), "dummy_identity.yaml")

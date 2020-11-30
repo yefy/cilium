@@ -76,7 +76,7 @@ var _ = Describe("K8sHealthTest", func() {
 		ExpectWithOffset(1, err).NotTo(HaveOccurred(), "Never saw cilium-health ip %s in pod %s", ip, pod)
 	}
 
-	It("checks cilium-health status between nodes", func() {
+	SkipItIf(helpers.DoesNotRunOnGKE, "checks cilium-health status between nodes", func() {
 		SkipIfIntegration(helpers.CIIntegrationFlannel)
 
 		cilium1, cilium1IP := getCilium(helpers.K8s1)

@@ -147,7 +147,7 @@ var _ = Describe("K8sHubbleTest", func() {
 		kubectl.CloseSSHClient()
 	})
 
-	Context("Hubble Observe", func() {
+	SkipContextIf(helpers.DoesNotRunOnGKE, "Hubble Observe", func() {
 		var (
 			namespaceForTest string
 			appPods          map[string]string
