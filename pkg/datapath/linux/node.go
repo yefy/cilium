@@ -701,13 +701,7 @@ func (n *linuxNodeHandler) nodeUpdate(oldNode, newNode *nodeTypes.Node, firstAdd
 	}
 
 	if n.enableNeighDiscovery {
-		var ifaceName string
-		if option.Config.EnableNodePort {
-			ifaceName = option.Config.DirectRoutingDevice
-		} else {
-			ifaceName = option.Config.EncryptInterface
-		}
-		n.insertNeighbor(newNode, ifaceName)
+		n.insertNeighbor(newNode, n.getApproriateIfaceName())
 	}
 
 	if n.nodeConfig.EnableIPSec {
@@ -760,6 +754,14 @@ func (n *linuxNodeHandler) nodeUpdate(oldNode, newNode *nodeTypes.Node, firstAdd
 	}
 
 	return nil
+}
+
+func (n *linuxNodeHandler) getApproriateIfaceName() string {
+	if option.Config.EnableNodePort {
+		return option.Config.DirectRoutingDevice
+	}
+
+	return option.Config.EncryptInterface
 }
 
 func (n *linuxNodeHandler) NodeDelete(oldNode nodeTypes.Node) error {
