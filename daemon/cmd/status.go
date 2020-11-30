@@ -17,6 +17,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"net"
 	"strings"
 	"time"
 
@@ -446,6 +447,16 @@ func (c *clusterNodesClient) NodeDelete(node nodeTypes.Node) error {
 	}
 	c.Unlock()
 	return nil
+}
+
+func (c *clusterNodesClient) NodeNeighInsert(node nodeTypes.Node) {
+	// no-op
+	return
+}
+
+func (c *clusterNodesClient) NodeNeighRemove(_ int32, _ net.IP) {
+	// no-op
+	return
 }
 
 func (c *clusterNodesClient) NodeValidateImplementation(node nodeTypes.Node) error {

@@ -15,6 +15,7 @@
 package peer
 
 import (
+	"net"
 	"strings"
 
 	"github.com/cilium/cilium/pkg/datapath"
@@ -114,6 +115,20 @@ func (h handler) NodeValidateImplementation(_ types.Node) error {
 func (h handler) NodeConfigurationChanged(_ datapath.LocalNodeConfiguration) error {
 	// no-op
 	return nil
+}
+
+// NodeNeighInsert implements datapath.NodeHandler.NodeNeighInsert. It is a
+// no-op.
+func (h handler) NodeNeighInsert(_ types.Node) {
+	// no-op
+	return
+}
+
+// NodeNeighRemove implements datapath.NodeHandler.NodeNeighRemove. It is a
+// no-op.
+func (h handler) NodeNeighRemove(_ int32, _ net.IP) {
+	// no-op
+	return
 }
 
 // Close frees handler resources.

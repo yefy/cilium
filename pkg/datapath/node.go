@@ -133,4 +133,7 @@ type NodeHandler interface {
 	// NodeConfigurationChanged is called when the local node configuration
 	// has changed
 	NodeConfigurationChanged(config LocalNodeConfiguration) error
+
+	NodeNeighInsert(newNode nodeTypes.Node)
+	NodeNeighRemove(id int32, ip net.IP)
 }
