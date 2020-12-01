@@ -9,7 +9,7 @@ LABEL cilium-sha=${CILIUM_SHA}
 #
 # Hubble CLI
 #
-FROM quay.io/cilium/hubble:v0.7.1@sha256:cc76aa6394d613eaeeac0f15b72f50d426b3c47d4676557431661e6aa5e1597b as hubble
+FROM docker.io/jrajahalme/hubble:v0.7.1@sha256:2cfff586d2f4c2e9d4345fb7c3d2b2d59e736c4f13d974009fcdd7b3255b7f93 as hubble
 ARG CILIUM_SHA=""
 LABEL cilium-sha=${CILIUM_SHA}
 
@@ -31,7 +31,7 @@ LABEL cilium-sha=${CILIUM_SHA}
 # augments the FROM line accordingly.
 #
 # FROM --platform=$BUILDPLATFORM
-FROM quay.io/cilium/cilium-builder:2020-11-16@sha256:822fd77f09703e0e06b8e2cb4b6919b842bae2dbb80a3744c99dd0a0d717eb17 as builder
+FROM docker.io/jrajahalme/cilium-builder:2020-12-01@sha256:24cc4f7c3d048e5c93e98f2cecdd351cf1f2179060091ec20f8c2f31d94bcdc7 as builder
 ARG CILIUM_SHA=""
 LABEL cilium-sha=${CILIUM_SHA}
 LABEL maintainer="maintainer@cilium.io"
@@ -64,7 +64,7 @@ RUN make GOARCH=$TARGETARCH RACE=$RACE NOSTRIP=$NOSTRIP LOCKDEBUG=$LOCKDEBUG PKG
 # built while allowing the new versions to make changes that are not
 # backwards compatible.
 #
-FROM quay.io/cilium/cilium-runtime:2020-11-16@sha256:e0a7d9cc628f93f086434d633d2ac825b9d0c2fb4c2dd6d8d926b05e85515822
+FROM docker.io/jrajahalme/cilium-runtime:2020-11-30@sha256:ba79fe3c45a210612c6a4a132fe669df75072456e873dc13ee0b22e7246a6148
 ARG CILIUM_SHA=""
 LABEL cilium-sha=${CILIUM_SHA}
 LABEL maintainer="maintainer@cilium.io"
